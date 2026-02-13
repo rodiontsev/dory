@@ -30,7 +30,8 @@ RUN apt-get update \
     && cd transmission-4.1.0 \
 ## 
 ## Build Transmission Daemon
-## Make some tea, as the build takes 5 hours to complete on a Raspberry Pi Model B.
+## Make some tea - Raspberry Pi Model B takes about 5 hours to complete a build,
+## Raspberry Pi 4 Model B finishes in 30 minutes.
     && cmake -B build -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_DAEMON=ON \
         -DENABLE_UTILS=ON \
@@ -71,8 +72,23 @@ COPY --from=builder /usr/local/share/transmission/public_html /usr/local/share/t
 
 WORKDIR /home/transmission
 
+## Install packages
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        adduser \
+        ca-certificates \
+        curl \
+        libb64-0d \
+        libcurl4 \
+        libdeflate0 \
+        libevent-2.1-7 \
+        libminiupnpc18 \
+        libnatpmp1 \
+        libpsl5 \
+        tini \
+##
 ## Create transmission user
-RUN addgroup --gid ${PGID} transmission \
+    && addgroup --gid ${PGID} transmission \
     && adduser --uid ${PUID} --gid ${PGID} --disabled-login --disabled-password --comment "" --home /home/transmission transmission \
     && mkdir -p \
         config \
@@ -81,20 +97,6 @@ RUN addgroup --gid ${PGID} transmission \
         scripts \
         watch \
     && chown -R ${PUID}:${PGID} /home/transmission \
-##
-## Install packages
-    && apt-get update \
-    && apt-get install --no-install-recommends -y \
-        ca-certificates \
-        curl \
-        libb64-0d \
-        libcurl4 \
-        libdeflate0 \
-        libevent-2.1-7 \
-        libminiupnpc17 \
-        libnatpmp1 \
-        libpsl5 \
-        tini \
 ##
 ## Clean up
     && rm -rf /var/lib/apt/lists/* \
