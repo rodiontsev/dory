@@ -1,5 +1,5 @@
 ## Build image
-FROM debian:bookworm-slim AS builder
+FROM debian:trixie-slim AS builder
 
 #ARG TRANSMISSION_VERSION=4.1.0
 
@@ -48,7 +48,7 @@ RUN apt-get update \
     && rm -rf /tmp/*
 
 ## Transmission image
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 ARG PUID
 ARG PGID
