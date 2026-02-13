@@ -1,0 +1,13 @@
+[Unit]
+Description=Downloads Volume
+ConditionPathExists=/mnt/downloads
+
+[Mount]
+What=diskstation.internal:/volume1/Downloads
+Where=/mnt/downloads
+Type=nfs
+Options=defaults
+TimeoutSec=30
+
+[Install]
+WantedBy=multi-user.target
