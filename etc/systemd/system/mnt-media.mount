@@ -1,0 +1,13 @@
+[Unit]
+Description=Media Volume
+ConditionPathExists=/mnt/media
+
+[Mount]
+What=diskstation.internal:/volume1/Media
+Where=/mnt/media
+Type=nfs
+Options=defaults
+TimeoutSec=30
+
+[Install]
+WantedBy=multi-user.target

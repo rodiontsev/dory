@@ -1,0 +1,35 @@
+services:
+  # Transmission - BitTorrent Client
+  transmission:
+    image: "transmission:4.1.0"
+    container_name: "transmission"
+    build:
+      context: .
+      dockerfile: "transmission.Dockerfile"
+      args:
+        PUID: ${PUID}
+        PGID: ${PGID}
+    user: "${PUID}:${PGID}"
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    volumes:
+      - type: "bind"
+        source: "/mnt/downloads"
+        target: "/home/transmission/downloads"
+        bind:
+          propagation: "shared"
+      - type: "bind"
+        source: "/mnt/ext"
+        target: "/home/transmission/incomplete"
+        bind:
+          propagation: "shared"
+      - "${DOCKER_DIR}/transmission/config:/home/transmission/config"
+      - "${DOCKER_DIR}/transmission/scripts:/home/transmission/scripts"
+      - "${DOCKER_DIR}/transmission/watch:/home/transmission/watch"
+    environment:
+      TZ: "${TZ}"
+    networks:
+      - "pi-net"
+    restart: unless-stopped

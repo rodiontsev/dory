@@ -1,0 +1,9 @@
+[Unit]
+Description=Automount Media Volume
+
+[Automount]
+Where=/mnt/media
+TimeoutIdleSec=900
+
+[Install]
+WantedBy=multi-user.target
