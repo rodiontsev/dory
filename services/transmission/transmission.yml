@@ -25,9 +25,9 @@ services:
         target: "/home/transmission/incomplete"
         bind:
           propagation: "shared"
-      - "${DOCKER_DIR}/transmission/config:/home/transmission/config"
-      - "${DOCKER_DIR}/transmission/scripts:/home/transmission/scripts"
-      - "${DOCKER_DIR}/transmission/watch:/home/transmission/watch"
+      - "${APP_DIR}/transmission/config:/home/transmission/config"
+      - "${APP_DIR}/transmission/scripts:/home/transmission/scripts"
+      - "${APP_DIR}/transmission/watch:/home/transmission/watch"
     environment:
       TZ: "${TZ}"
     networks:
